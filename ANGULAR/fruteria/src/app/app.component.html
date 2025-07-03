@@ -1,0 +1,43 @@
+<nav>
+  <div>
+    <ul class="botonera">
+     <li><a [routerLink]="['/']">Home</a></li>
+    </ul>
+  </div>
+  <div>
+    <ul class="botonera">
+      @if (!estaAutenticado) {
+        <li>
+          <a
+            [routerLink]="['/loguearse']"
+            class="btn btn-primary rounded-pill px-4 py-2"
+            role="button"
+          >
+            Loguearse
+          </a>
+        </li>
+      }     
+      @if (estaAutenticado){
+        <li>
+          <a
+            class="btn btn-danger rounded-pill px-4 py-2 shadow"
+            role="button"
+            (click)="cerrarsesion()"
+          >
+            Cerrar sesión
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+</nav>
+
+<div>
+  <router-outlet></router-outlet>
+</div>
+
+<footer class="pie_de_pagina">
+  <div class="informacion">
+    <a href="#" target="_blank"><p>{{ footer }}</p></a>
+  </div>
+</footer>

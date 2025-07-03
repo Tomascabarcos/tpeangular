@@ -1,0 +1,254 @@
+<div class="container mt-4">
+  <div class="card p-4">
+    <h1 class="mb-4">Complete el formulario para Registrarse</h1>
+
+    <form [formGroup]="registroForm" (submit)="onSubmit()">
+
+      <div class="mb-3">
+        <input formControlName="nombre" class="form-control input" placeholder="Nombre" />
+        @if (
+          registroForm.get('nombre')?.invalid &&
+          (registroForm.get('nombre')?.touched || registroForm.get('nombre')?.dirty)
+        ) {
+          <div class="text-danger">
+            @if (registroForm.get('nombre')?.errors?.['required']) {
+              <p>Nombre requerido.</p>
+            }
+            @if (registroForm.get('nombre')?.errors?.['minlength']) {
+              <p>El nombre debe tener al menos 4 caracteres.</p>
+            }
+            @if (registroForm.get('nombre')?.errors?.['maxlength']) {
+              <p>El nombre no puede superar los 10 caracteres.</p>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <input formControlName="apellido" class="form-control input" placeholder="Apellido" />
+        @if (
+          registroForm.get('apellido')?.invalid &&
+          (registroForm.get('apellido')?.touched || registroForm.get('apellido')?.dirty)
+        ) {
+          <div class="text-danger">
+            @if (registroForm.get('apellido')?.errors?.['required']) {
+              <p>Apellido requerido.</p>
+            }
+            @if (registroForm.get('apellido')?.errors?.['minlength']) {
+              <p>El apellido debe tener al menos 4 caracteres.</p>
+            }
+            @if (registroForm.get('apellido')?.errors?.['maxlength']) {
+              <p>El apellido no puede superar los 12 caracteres.</p>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <input type="number" formControlName="edad" class="form-control" placeholder="Edad" />
+        @if (
+          registroForm.get('edad')?.invalid &&
+          (registroForm.get('edad')?.touched || registroForm.get('edad')?.dirty)
+        ) {
+          <div class="text-danger">
+            @if (registroForm.get('edad')?.errors?.['required']) {
+              <p>Edad requerida.</p>
+            }
+            @if (registroForm.get('edad')?.errors?.['min']) {
+              <p>Edad mínima permitida: 18 años.</p>
+            }
+            @if (registroForm.get('edad')?.errors?.['max']) {
+              <p>Edad máxima permitida: 100 años.</p>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <input type="tel" formControlName="telefono" class="form-control" placeholder="Teléfono" />
+        @if (
+          registroForm.get('telefono')?.invalid &&
+          (registroForm.get('telefono')?.touched || registroForm.get('telefono')?.dirty)
+        ) {
+          <div class="text-danger">
+            @if (registroForm.get('telefono')?.errors?.['required']) {
+              <p>Teléfono requerido.</p>
+            }
+            @if (registroForm.get('telefono')?.errors?.['minlength']) {
+              <p>El teléfono debe tener al menos 5 dígitos.</p>
+            }
+            @if (registroForm.get('telefono')?.errors?.['maxlength']) {
+              <p>El teléfono no puede superar los 12 dígitos.</p>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <input
+          type="email"
+          class="form-control"
+          placeholder="Email"
+          formControlName="email"
+        />
+        @if (
+          (registroForm.get('email')?.invalid &&
+          (registroForm.get('email')?.touched || registroForm.get('email')?.dirty))
+        ){
+          <div class="text-danger">
+            @if (registroForm.get('email')?.errors?.['required']) {
+              <p>Email requerido.</p>
+            }
+
+            @if (registroForm.get('email')?.errors?.['maxlength']) {
+              <p>Máximo 33 caracteres permitidos.</p>
+            }
+
+            @if (
+              !registroForm.get('email')?.errors?.['required'] &&
+              !registroForm.get('email')?.errors?.['maxlength'] &&
+              registroForm.get('email')?.errors?.['pattern']
+            ) {
+              @if (!registroForm.get('email')?.value?.includes('@')) {
+                <p>Falta el símbolo "&#64;".</p>
+              }
+              @else if (registroForm.get('email')?.value?.startsWith('@')) {
+                <p>Falta el texto antes del "&#64;".</p>
+              }
+              @else if (
+                registroForm.get('email')?.value?.includes('@') &&
+                !registroForm.get('email')?.value?.split('@')[1]
+              ) {
+                <p>Falta luego del "&#64;" el gmail, hotmail, etc.</p>
+              }
+              @else {
+                <p>Falta el ".com" o ar , etc.</p>
+              }
+            }
+            @if (
+              !registroForm.get('email')?.errors?.['pattern'] &&
+              registroForm.get('email')?.errors?.['Seactivomayuscula']
+            ){
+              <p>(Después del "&#64;") debe estar en minúsculas.</p>
+            }
+            @if(
+              !registroForm.get('email')?.errors?.['pattern'] &&
+              registroForm.get('email')?.errors?.['SeactivoConNumeros']
+            ){
+              <p>(Después del "&#64;") solo se permiten letras, sin números ni símbolos</p>
+            } 
+            @if (registroForm.get('email')?.errors?.['emailExiste']) {
+              <p>Este email ya está registrado. Por favor, ingresa otro.</p>
+            }
+
+          </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <input
+          type="password"
+          formControlName="contrasenia"
+          placeholder="Nueva contraseña"
+          class="form-control"
+        />
+        @if (registroForm.get('contrasenia')?.invalid &&
+          (registroForm.get('contrasenia')?.touched || registroForm.get('contrasenia')?.dirty)) {
+          <div class="text-danger">
+            @if (registroForm.get('contrasenia')?.errors?.['required']) {
+              <p>Contraseña requerida.</p>
+            }
+            @if (registroForm.get('contrasenia')?.errors?.['minlength']) {
+              <p>Debe tener al menos 5 caracteres.</p>
+            }
+            @if (registroForm.get('contrasenia')?.errors?.['maxlength']) {
+              <p>La contraseña no puede superar 20 caracteres.</p>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <input
+          type="password"
+          formControlName="confirmarContrasenia"
+          placeholder="Confirmar Contraseña"
+          class="form-control"
+        />
+        @if (registroForm.get('confirmarContrasenia')?.invalid &&
+        (registroForm.get('confirmarContrasenia')?.touched || registroForm.get('confirmarContrasenia')?.dirty)) {
+          <div class="text-danger">
+            @if (registroForm.get('confirmarContrasenia')?.errors?.['required']) {
+              <p>Debes confirmar la contraseña.</p>
+            }
+            @if (registroForm.get('confirmarContrasenia')?.errors?.['maxlength']) {
+              <p>La contraseña no puede superar 20 caracteres.</p>
+            }
+          </div>
+        }
+      </div>
+
+       <!-- ERROR SI LAS CONTRASEÑAS NO COINCIDEN -->
+      @if (registroForm.get('confirmarContrasenia')?.errors?.['contraseniaNoCoincide'] &&
+      (registroForm.get('confirmarContrasenia')?.touched || registroForm.get('confirmarContrasenia')?.dirty)) {
+        <p class="text-danger">Las contraseñas no coinciden.</p>
+      }
+
+
+      <div class="mb-3 text-center">
+        <p class="mensaje-captcha">
+          Verificación – Ingrese el número: <strong>{{ numeroAleatorio }}</strong>
+        </p>
+        <input
+          type="number"
+          formControlName="captcha"
+          class="form-control"
+          placeholder="Numero:"
+          min="1"
+          max="1000"
+          step="1"
+        />
+        @if (
+          registroForm.get('captcha')?.invalid &&
+          (registroForm.get('captcha')?.touched || registroForm.get('captcha')?.dirty)
+        ) {
+          <div class="text-danger">
+            @if (registroForm.get('captcha')?.errors?.['required']) {
+              <p>Debes ingresar el numero de Verificación</p>
+            }
+            @if (registroForm.get('captcha')?.errors?.['captchaIncorrecto']) {
+              <p>Número incorrecto. Intenta de nuevo.</p>
+            }
+          </div>
+        }
+      </div>
+
+      @if (mensajeEnviado) {
+        <div class="alert alert-success">¡Registro completado con éxito!</div>
+      }
+      @if (errorEnvio) {
+        <div class="alert alert-danger">Error al enviar. Intenta nuevamente.</div>
+      }
+
+      @if (mensajeFormularioInvalido) {
+        <div class="alert alert-danger text-center"> 
+          Por favor, completa todos los campos correctamente.
+        </div>
+      }
+
+      <div class="d-grid">
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          REGISTRARSE
+        </button>
+      </div>
+    </form>
+
+    <div class="d-grid div-centrar mt-4">
+      <p>—---------- o ----------—</p>
+      <button class="btn btn-secondary" (click)="irALoguearse()">Ir a Loguearse</button>
+    </div>
+  </div>
+</div>

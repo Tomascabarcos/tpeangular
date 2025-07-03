@@ -1,0 +1,7 @@
+<button class="btn btn-primary btn-small" (click)="decrementarcantidad()">-</button>
+    <input type="text"
+    [(ngModel)]="cantidad"
+    (keydown)="permitirnumeros($event)"
+    (input)="onInputChange($event)"
+    />
+<button class="btn btn-primary btn-small" (click)="incrementarcantidad()">+</button>

@@ -1,0 +1,41 @@
+<h1 class="titulo-carrito text-center my-4">🛒 Carrito de Compras</h1>
+
+<div class="container_carrito table-responsive px-4">
+    @if(listacarrito.length > 0) {
+        <table class="table table-hover align-middle shadow-sm rounded">
+            <thead class="table-primary text-center">
+                <tr>
+                <th>Fruta</th>
+                <th>Precio Unitario</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(f of listacarrito; track f.nombre) {
+                    <tr class="text-center">
+                        <td class="fw-bold text-capitalize">{{ f.nombre }}</td>
+                        <td>${{ f.precio }}</td>
+                        <td>{{ f.cantidad }}</td>
+                        <td class="text-success fw-semibold">${{f.precio * f.cantidad}}</td>
+                        <td>
+                        <button class="btn btn-outline-danger btn-sm" (click)="eliminarlistacarrito(f)">
+                            <p>Eliminar</p>
+                        </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-end container-boton">
+            <button class="btn btn-success px-4 py-2 fw-semibold pagar-btn">
+                <p>PAGAR TODO<p>
+            </button>
+        </div>
+    }@else {
+        <div class="alert alert-info text-center my-4">
+            <p>El carrito está vacío. ¡Agrega algunas frutas!</p>
+        </div>
+    }
+</div>

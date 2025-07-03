@@ -1,0 +1,57 @@
+<h1>Lista de frutas</h1>
+<table class="text-center">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Precio/U</th>
+            <th>Stock</th>
+            <th></th>
+            <th>COMPRAR</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (i of frutas; track i.nombre ;let pos = $index){
+            <tr [ngClass]="{ oferta: i.oferta }">
+                <td><img [src]="i.image" [alt]="i.nombre"></td>
+                <td>{{i.nombre}}</td>
+                <td>{{i.tipo}}</td>
+                <td>{{i.precio}}</td>
+                @if(i.stock>0){
+                    <td>{{i.stock}}</td>
+                }@else{
+                    <td>
+                        <span class="bg-danger text-dark p-3 rounded">SIN STOCK</span>
+                    </td>
+                }
+                @if(i.oferta){
+                    <td class="divs-control"><span pan class="bg-warning text-dark p-3 rounded ">ESTA EN OFERTA</span></td>
+                }@else{
+                    <td></td>
+                }
+                <td>
+                    <app-input-integer [(cantidad)]="i.cantidad"
+                        [max]="i.stock" 
+                        (maximoalcanzado)="maximoalcanzado($event, pos)"
+                        [autenticado]="loginservice.estaAutenticadoAhora()"
+                    ></app-input-integer>
+                    @if (i.maximoalcanzado && i.stock>0){
+                         <div class="bg-danger text-white p-2 mt-2 rounded">Se alcanzó el máximo</div>
+                    }
+                </td> 
+                <td>
+                    <button class="btn  btn-primary btn-small" (click)="agregaralcarrito(i)"  
+                    [disabled]=" loginservice.estaAutenticadoAhora() && i.cantidad <= 0 ">
+                        Comprar
+                    </button>
+                </td>
+               
+            </tr>
+        }@empty{
+            <tr>
+                <td>No hay frutas para mostrar</td>
+            </tr>
+        }
+    </tbody>
+</table>

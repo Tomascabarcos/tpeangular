@@ -1,0 +1,144 @@
+<div class="container mt-4 mb-5">
+  <div class="card p-4">
+    <h1 class="mb-4">Crear una nueva contraseña</h1>
+    <form [formGroup]="formRecuperar" (submit)="cambiarcontrasenia()">
+
+
+    <div class="mb-3">
+      <small  class="form-text text-primary text-uppercase">Usá el email con el que creaste tu cuenta</small>
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Ingresá el email con el que te registraste:" 
+        class="form-control"
+      />
+
+      @if (
+        (formRecuperar.get('email')?.invalid &&
+        (formRecuperar.get('email')?.touched || formRecuperar.get('email')?.dirty)) ||
+        formRecuperar.get('email')?.errors?.['usuarioNoEncontrado']
+      ) {
+        <div class="text-danger">
+          @if (formRecuperar.get('email')?.errors?.['required']) {
+            <p>Email requerido.</p>
+          }
+
+          @if (formRecuperar.get('email')?.errors?.['maxlength']) {
+            <p>Máximo 33 caracteres permitidos.</p>
+          }
+
+          @if (formRecuperar.get('email')?.errors?.['usuarioNoEncontrado']) {
+            <p>No se encontró un usuario con ese email.</p>
+          }
+
+          @if (
+            !formRecuperar.get('email')?.errors?.['required'] &&
+            !formRecuperar.get('email')?.errors?.['maxlength'] &&
+            formRecuperar.get('email')?.errors?.['pattern']
+          ) {
+            @if (!formRecuperar.get('email')?.value?.includes('@')) {
+              <p>Falta el símbolo "&#64;".</p>
+            }
+            @else if (formRecuperar.get('email')?.value?.startsWith('@')) {
+              <p>Falta el texto antes del "&#64;".</p>
+            }
+            @else if (
+              formRecuperar.get('email')?.value?.includes('@') &&
+              !formRecuperar.get('email')?.value?.split('@')[1]
+            ) {
+              <p>Falta luego del "&#64;" el gmail, hotmail, etc.</p>
+            }
+            @else {
+              <p>Falta el ".com" o .ar , etc.</p>
+            }
+          }
+          @if(
+              !formRecuperar.get('email')?.errors?.['pattern'] &&
+              formRecuperar.get('email')?.errors?.['Seactivomayuscula']
+            ){
+               <p>(Después del "&#64;") debe estar en minúsculas.</p>
+          }
+          @if(
+              !formRecuperar.get('email')?.errors?.['pattern'] &&
+              formRecuperar.get('email')?.errors?.['SeactivoConNumeros']
+            ) {
+              <p>(Después del "&#64;") solo se permiten letras, sin números ni símbolos.</p>
+          } 
+        </div>
+      }
+    </div>
+
+      
+      <div class="mb-3">
+        <input
+          type="password"
+          formControlName="nuevaContrasenia"
+          placeholder="Nueva contraseña"
+          class="form-control"
+        />
+        @if (formRecuperar.get('nuevaContrasenia')?.invalid &&
+              (formRecuperar.get('nuevaContrasenia')?.touched || formRecuperar.get('nuevaContrasenia')?.dirty)) {
+          <div class="text-danger">
+            @if (formRecuperar.get('nuevaContrasenia')?.errors?.['required']) {
+              <p>Contraseña requerida.</p>
+            }
+            @if (formRecuperar.get('nuevaContrasenia')?.errors?.['minlength']) {
+              <p>Debe tener al menos 5 caracteres.</p>
+            }
+            @if (formRecuperar.get('nuevaContrasenia')?.errors?.['maxlength']) {
+              <p>La contraseña no puede superar 20 caracteres.</p>
+            }
+          </div>
+        }
+      </div>
+
+    
+      <div class="mb-3">
+        <input
+          type="password"
+          formControlName="confirmarContrasenia"
+          placeholder="Confirmar contraseña"
+          class="form-control"
+        />
+        @if (formRecuperar.get('confirmarContrasenia')?.invalid &&
+        (formRecuperar.get('confirmarContrasenia')?.touched || formRecuperar.get('confirmarContrasenia')?.dirty)) {
+          <div class="text-danger">
+            @if (formRecuperar.get('confirmarContrasenia')?.errors?.['required']) {
+              <p>Debes confirmar la contraseña.</p>
+            }
+            @if (formRecuperar.get('confirmarContrasenia')?.errors?.['maxlength']) {
+              <p>La contraseña no puede superar 20 caracteres.</p>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- ERROR SI LAS CONTRASEÑAS NO COINCIDEN -->
+      @if (formRecuperar.get('confirmarContrasenia')?.errors?.['contraseniaNoCoincide'] &&
+      (formRecuperar.get('confirmarContrasenia')?.touched || formRecuperar.get('confirmarContrasenia')?.dirty)){
+        <p class="text-danger">Las contraseñas no coinciden.</p>
+      }
+
+      @if (mensajeFormularioInvalido) {
+        <div class="alert alert-danger text-center"> 
+          Por favor, completa todos los campos correctamente.
+        </div>
+      }
+
+      <div class="d-grid container-btn">
+        <button
+          class="btn btn-primary btn-recuperar"
+          type="submit"
+        >
+          Confirmar cambio
+        </button>
+      </div>
+
+    </form>
+    @if (mensaje) {
+      <div class="alert alert-success text-center mt-3">
+        <p>{{ mensaje }}</p>
+      </div>
+    }
+  </div>
+</div>

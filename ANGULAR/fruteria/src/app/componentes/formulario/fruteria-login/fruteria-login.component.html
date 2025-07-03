@@ -1,0 +1,113 @@
+<div class="container mt-4 mb-5">
+  <div class="card p-4">
+    <h1 class="mb-4">Iniciar Sesión</h1>
+
+    <form [formGroup]="loginForm" (submit)="onLogin()">
+      <div class="mb-3">
+        <input
+          type="email"
+          class="form-control"
+          placeholder="Ingresá el email con el que te registraste:"
+          formControlName="email"
+        />
+        @if (
+          (loginForm.get('email')?.invalid &&
+          (loginForm.get('email')?.touched || loginForm.get('email')?.dirty))
+          ){
+          <div class="text-danger">
+            @if ( loginForm.get('email')?.errors?.['required']) {
+              <p>Email requerido.</p>
+            }
+
+            @if (loginForm.get('email')?.errors?.['maxlength']) {
+              <p>Máximo 33 caracteres permitidos.</p>
+            }
+
+            @if (
+              !loginForm.get('email')?.errors?.['required'] &&
+              !loginForm.get('email')?.errors?.['maxlength'] &&
+              loginForm.get('email')?.errors?.['pattern']
+            ) {
+              @if (!loginForm.get('email')?.value?.includes('@')) {
+                <p>Falta el símbolo "&#64;".</p>
+              }
+              @else if (loginForm.get('email')?.value?.startsWith('@')) {
+                <p>Falta el texto antes del "&#64;".</p>
+              }
+              @else if (
+                loginForm.get('email')?.value?.includes('@') &&
+                !loginForm.get('email')?.value?.split('@')[1]
+              ) {
+                <p>Falta luego del "&#64;" el gmail, hotmail, etc.</p>
+              }
+              @else {
+                <p>Falta el ".com" o .ar , etc.</p>
+              }
+            }
+            @if (
+              !loginForm.get('email')?.errors?.['pattern'] &&
+              loginForm.get('email')?.errors?.['Seactivomayuscula']
+            ) {
+               <p>(Después del "&#64;") debe estar en minúsculas.</p>
+            }
+            @if (
+              !loginForm.get('email')?.errors?.['pattern'] &&
+              loginForm.get('email')?.errors?.['SeactivoConNumeros']
+            ) {
+              <p>(Después del "&#64;") solo se permiten letras, sin números ni símbolos.</p>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <input
+          type="password"
+          class="form-control"
+          placeholder="Contraseña"
+          formControlName="contrasenia"
+        />
+        @if (
+          (loginForm.get('contrasenia')?.touched || loginForm.get('contrasenia')?.dirty) &&
+          loginForm.get('contrasenia')?.invalid
+        ) {
+          <div class="text-danger">
+            @if (loginForm.get('contrasenia')?.errors?.['required']) {
+              <p>Contraseña requerida.</p>
+            }
+            @if (loginForm.get('contrasenia')?.errors?.['maxlength']) {
+              <p>La contraseña no puede superar los 20 caracteres.</p>
+            }
+          </div>
+        }
+      </div>
+
+      @if (error) {
+        <div class="alert alert-danger text-center">
+          <p>Email o contraseña incorrectos</p>
+        </div>
+      }
+      @if (mensajeFormularioInvalido) {
+        <div class="alert alert-danger text-center"> 
+          Por favor, completa todos los campos correctamente.
+        </div>
+      }
+
+      <div class="container-btn">
+        <button
+          type="submit"
+          class="btn btn-primary btn-login"
+        >
+          INGRESAR
+        </button>
+      </div>
+
+      <div class="text-center mt-3 ">
+        <a routerLink="/olvidastecontrasenia"  class="hover">Olvidaste la contraseña</a>
+      </div>
+      <div class="text-center mt-3 ">
+        <a routerLink="/registrarse" class="hover">¿No tenés cuenta? Registrate</a>
+      </div>
+    </form>
+  </div>
+</div>

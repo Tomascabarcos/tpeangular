@@ -1,0 +1,44 @@
+h1{
+    display: flex;
+    justify-content: center;
+    
+}
+table{
+    width: 100%;
+    background-color: burlywood;
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+table td, table th {
+    border-top: 1px solid  black; /* Bordes horizontales para las filas */
+    padding: 8px;
+    text-align: center;
+}
+table td{
+    text-transform: uppercase;
+}
+td {
+    text-align: center;
+}
+.container_carrito{
+    background-color: #f8f9fa;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    
+}
+.container-boton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container-boton p{
+    margin: 0;
+    justify-content: center;
+    text-align: center;
+}
+.titulo-carrito {
+  font-size: 2rem;
+  color: #2c3e50;
+}
+
+
